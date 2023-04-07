@@ -14,6 +14,7 @@ import {
 import { constants } from "ethers";
 
 const TelegramBot = require('node-telegram-bot-api');
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
 
 export async function POST(req: NextRequest) {
   // ensure that this is a request that we should process
@@ -73,9 +74,6 @@ export async function POST(req: NextRequest) {
   // concat it together
   const msg = alert + toTheAnimals + newHolder + rankUp + txLink + chartLink + rankLink;
 
-  // create the bot
-  const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
-  
   // send the message
   await bot.sendMessage(TELEGRAM_CHAT_ID, msg, { parse_mode: 'Markdown', disable_web_page_preview: true })
 
