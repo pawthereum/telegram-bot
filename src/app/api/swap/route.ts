@@ -31,9 +31,10 @@ export async function POST(req: NextRequest) {
   }
 
   if (isArbitrage(body)) {
-    return NextResponse.json({ message: `💫 *Arbitrage!*
-      The Pawth Arb bot just executed a successful arbitrage!` 
-    });
+    const msg = `💫 *Arbitrage!*
+    The Pawth Arb bot just executed a successful arbitrage!`;
+    await bot.sendMessage(TELEGRAM_CHAT_ID, msg, { parse_mode: 'Markdown', disable_web_page_preview: true })
+    return NextResponse.json({ message: msg });
   }
 
   // setup variables we need for the msg
