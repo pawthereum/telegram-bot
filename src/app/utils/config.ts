@@ -7,3 +7,5 @@ export const TOKEN = {
   symbol: 'PAWTH',
   decimals: 9,
 }
+
+export const TELEGRAM_CHAT_ID = -1001314803735;

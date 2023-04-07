@@ -1,7 +1,7 @@
 import { MoralisSwap } from "~/types/moralis";
 import { TokenAmount } from "@uniswap/sdk";
 import { NextRequest, NextResponse } from "next/server";
-import { TOKEN } from "~/app/utils/config";
+import { TELEGRAM_CHAT_ID, TOKEN } from "~/app/utils/config";
 import { 
   getChain, 
   getDex, 
@@ -12,13 +12,18 @@ import {
   getRank
 } from "~/app/utils";
 
+const TelegramBot = require('node-telegram-bot-api');
+
 export async function POST(req: NextRequest) {
   // ensure that this is a request that we should process
   const body = await req.json();
   if (!body) {
     return NextResponse.json({ error: 'No body' });
   }
-  const { confirmed, logs, chainId } = body as unknown as MoralisSwap;
+  const { confirmed, logs, chainId, streamId } = body as unknown as MoralisSwap;
+  if (streamId !== process.env.MORALIS_STREAM_ID) {
+    return NextResponse.json({ error: 'Not our stream' });
+  }
   if (!confirmed) {
     return NextResponse.json({ error: 'Not confirmed' });
   }
@@ -65,6 +70,12 @@ export async function POST(req: NextRequest) {
 
   // concat it together
   const msg = alert + newHolder + rankUp + txLink + chartLink + rankLink;
+
+  // create the bot
+  const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
+  
+  // send the message
+  await bot.sendMessage(TELEGRAM_CHAT_ID, msg, { parse_mode: 'Markdown', disable_web_page_preview: true })
 
   return NextResponse.json({ message: msg });
 }
