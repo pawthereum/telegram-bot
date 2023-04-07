@@ -14,7 +14,7 @@ import {
 import { constants } from "ethers";
 
 const TelegramBot = require('node-telegram-bot-api');
-const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: false });
 
 export async function POST(req: NextRequest) {
   // ensure that this is a request that we should process
