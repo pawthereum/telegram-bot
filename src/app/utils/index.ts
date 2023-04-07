@@ -28,7 +28,7 @@ export const getToken = (chain: Chain) => {
 
 export const getDex = (address: string) => {
   switch (address.toLowerCase()) {
-    case '0x13f4EA83D0bd40E75C8222255bc855a974568Dd4':
+    case '0x13f4ea83d0bd40e75c8222255bc855a974568dd4':
       return {
         name: 'PancakeSwap',
         icon: '🥞',

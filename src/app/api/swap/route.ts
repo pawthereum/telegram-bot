@@ -1,5 +1,5 @@
 import { MoralisSwap } from "~/types/moralis";
-import { TokenAmount } from "@uniswap/sdk";
+import { ChainId, Token, TokenAmount } from "@uniswap/sdk";
 import { NextRequest, NextResponse } from "next/server";
 import { TELEGRAM_CHAT_ID, TOKEN } from "~/app/utils/config";
 import { 
@@ -11,6 +11,7 @@ import {
   getBuyerAddress, 
   getRank
 } from "~/app/utils";
+import { constants } from "ethers";
 
 const TelegramBot = require('node-telegram-bot-api');
 
@@ -39,8 +40,8 @@ export async function POST(req: NextRequest) {
   const chain = getChain(parseInt(chainId));
   const chainCurrencyUsd = await getUsdValueOfChainCurrency(chain);
   const dex = getDex(swap.sender);
-  const tokensReceived = new TokenAmount(getToken(chain), swap.amount1Out);
-  const amountSpent = new TokenAmount(getToken(chain), swap.amount0In);
+  const tokensReceived = new TokenAmount(getToken(chain), swap.amount0Out);
+  const amountSpent = new TokenAmount(new Token(chain.id as ChainId, constants.AddressZero, 18), swap.amount1In);
   const amountSpentUsd = parseFloat(amountSpent.toSignificant(8)) * chainCurrencyUsd;
   const buyer = getBuyerAddress(swap.to, dex);
   const tax = dex.tax.multiply(amountSpent).toFixed(2);
@@ -53,8 +54,9 @@ export async function POST(req: NextRequest) {
 
   // build the msg
   const alert = `🚨 *Buy Alert!*
-  ${dex.icon} ${buyer} just bought ${amountSpent.toSignificant(6, { groupSeparator: ',' })} ${chain.nativeCurrency.symbol} ($${amountSpentUsd.toFixed(2)} USD) for ${tokensReceived.toSignificant(6, { groupSeparator: ',' })} ${TOKEN.symbol}!
-  That's $${taxUsd} to the animals!`;
+  ${dex.icon} ${buyer} just bought ${amountSpent.toSignificant(6, { groupSeparator: ',' })} ${chain.nativeCurrency.symbol} ($${amountSpentUsd.toFixed(2)} USD) for ${tokensReceived.toSignificant(6, { groupSeparator: ',' })} ${TOKEN.symbol} on ${dex.name}!`;
+
+  const toTheAnimals = tax > 0.00 ? `That's $${tax} the animals!` : ''; 
 
   const newHolder = isNewHolder ? `
   🥳 ${buyer} is a new $${TOKEN.symbol} holder on ${chain.name}! Everyone give them a big welcome!
@@ -69,7 +71,7 @@ export async function POST(req: NextRequest) {
   const rankLink = `🦁 [View all ranks](https://cdn.discordapp.com/attachments/891351589162483732/931878322676322304/finfinfin.png)`;
 
   // concat it together
-  const msg = alert + newHolder + rankUp + txLink + chartLink + rankLink;
+  const msg = alert + toTheAnimals + newHolder + rankUp + txLink + chartLink + rankLink;
 
   // create the bot
   const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
@@ -77,5 +79,5 @@ export async function POST(req: NextRequest) {
   // send the message
   await bot.sendMessage(TELEGRAM_CHAT_ID, msg, { parse_mode: 'Markdown', disable_web_page_preview: true })
 
-  return NextResponse.json({ message: msg });
+  return NextResponse.json({ message: msg, tax });
 }
