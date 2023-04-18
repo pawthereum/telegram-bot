@@ -49,7 +49,7 @@ export const getDex = (address: string) => {
         tax: new Percent('1', '100'),
         chartUrl: 'https://www.dextools.io/app/ether/pair-explorer/0x54a0baf656fcdc383a7c129751742fecd4eee726',
       } as Dex;
-    case '0xee9036b4d466de198aba04068740da811e2691fd':
+    case '0x524bc73fcb4fb70e2e84dc08efe255252a3b026e':
       return {
         name: 'SafemoonSwap',
         icon: '🚀',
