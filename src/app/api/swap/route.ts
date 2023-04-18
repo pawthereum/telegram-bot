@@ -71,8 +71,7 @@ export async function POST(req: NextRequest) {
   ${buyer} went from a ${oldRank.name} to a [${newRank?.name}](${newRank?.img})! Congrats!` : '';
 
   // msg links
-  const txLink = `
-  🔎 [TX](https://${chain.blockExplorers.default.url}/tx/${swap.transactionHash}) | `;
+  const txLink = `🔎 [TX](https://${chain.blockExplorers.default.url}/tx/${swap.transactionHash}) | `;
   const chartLink = `📈 [Chart](${dex.chartUrl}) | `;
   const rankLink = `🦁 [View all ranks](https://cdn.discordapp.com/attachments/891351589162483732/931878322676322304/finfinfin.png)`;
 
