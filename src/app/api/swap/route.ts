@@ -23,14 +23,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'No body' });
   }
   const { confirmed, logs, chainId, streamId } = body as unknown as MoralisSwap;
-  if (streamId !== process.env.MORALIS_STREAM_ID) {
-    return NextResponse.json({ error: 'Not our stream' });
-  }
+  console.log({ body });
+  // if (streamId !== process.env.MORALIS_STREAM_ID) {
+  //   return NextResponse.json({ error: 'Not our stream' });
+  // }
   if (!confirmed) {
     return NextResponse.json({ error: 'Not confirmed' });
   }
 
-  if (isArbitrage(body)) {
+  const swap = body;
+
+  if (isArbitrage(swap)) {
     const msg = `💫 *Arbitrage!*
     The Pawth Arb bot just executed a successful arbitrage!`;
     await bot.sendMessage(TELEGRAM_CHAT_ID, msg, { parse_mode: 'Markdown', disable_web_page_preview: true })
@@ -38,7 +41,6 @@ export async function POST(req: NextRequest) {
   }
 
   // setup variables we need for the msg
-  const swap = logs[0];
   const chain = getChain(parseInt(chainId));
   const chainCurrencyUsd = await getUsdValueOfChainCurrency(chain);
   const dex = getDex(swap.sender);
@@ -58,6 +60,7 @@ export async function POST(req: NextRequest) {
   const alert = `🚨 *Buy Alert!*
   ${dex.icon} ${buyer} just bought ${amountSpent.toSignificant(6, { groupSeparator: ',' })} ${chain.nativeCurrency.symbol} ($${amountSpentUsd.toFixed(2)} USD) for ${tokensReceived.toSignificant(6, { groupSeparator: ',' })} ${TOKEN.symbol} on ${dex.name}!`;
 
+  console.log({ alert })
   const toTheAnimals = tax > 0.00 ? `That's $${tax} the animals!` : ''; 
 
   const newHolder = isNewHolder ? `
@@ -77,7 +80,9 @@ export async function POST(req: NextRequest) {
   const msg = alert + toTheAnimals + newHolder + rankUp + txLink + chartLink + rankLink;
 
   // send the message
-  await bot.sendMessage(TELEGRAM_CHAT_ID, msg, { parse_mode: 'Markdown', disable_web_page_preview: true })
+  // await bot.sendMessage(TELEGRAM_CHAT_ID, msg, { parse_mode: 'Markdown', disable_web_page_preview: true })
+
+  console.log({ msg, tax });
 
   return NextResponse.json({ message: msg, tax });
 }

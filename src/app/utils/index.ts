@@ -109,8 +109,8 @@ export const getUsdValueOfChainCurrency = async (chain: Chain) => {
   return json[currency()].usd;
 }
 
-export const isArbitrage = (swap: MoralisSwap) => {
-  return swap.logs[0].to.toLowerCase() === '0x907cdce47406682149cf21e37f36b307e807740e';
+export const isArbitrage = (swap: any) => {
+  return swap.to.toLowerCase() === '0x907cdce47406682149cf21e37f36b307e807740e';
 };
 
 export const getRank = (balance: TokenAmount, token: Token) => {
