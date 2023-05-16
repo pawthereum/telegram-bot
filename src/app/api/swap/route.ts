@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
   const isNewHolder = buyerBalance.equalTo(tokensReceived);
 
   // get out if this is not a buy
-  const isBuy = dex.name !== "Unknown";
+  const isBuy = dex.name !== "Unknown" && swap.amount1In !== '0';
   if (!isBuy) {
     return NextResponse.json({ error: 'Not a buy' });
   }
