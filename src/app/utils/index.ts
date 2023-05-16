@@ -74,7 +74,14 @@ export const getDex = (address: string) => {
       return {
         name: 'Metamask Swapper',
         icon: '🦊',
-        tax: new Percent('2', '100'),
+        tax: new Percent('1', '100'),
+        chartUrl: 'https://www.dextools.io/app/ether/pair-explorer/0x800a45f2b861229d59e952aef57b22e84ff949a1',
+      } as Dex;
+    case '0x1111111254eeb25477b68fb85ed929f73a960582':
+      return {
+        name: '1inch',
+        icon: '🐴',
+        tax: new Percent('1', '100'),
         chartUrl: 'https://www.dextools.io/app/ether/pair-explorer/0x800a45f2b861229d59e952aef57b22e84ff949a1',
       } as Dex;
     default:

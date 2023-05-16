@@ -56,6 +56,12 @@ export async function POST(req: NextRequest) {
   const oldRank = getRank(buyerBalanceBeforeBuy, getToken(chain));
   const isNewHolder = buyerBalance.equalTo(tokensReceived);
 
+  // get out if this is not a buy
+  const isBuy = dex.name !== "Unknown";
+  if (!isBuy) {
+    return NextResponse.json({ error: 'Not a buy' });
+  }
+
   // build the msg
   const alert = `🚨 *Buy Alert!*
   ${dex.icon} ${buyer} just bought ${amountSpent.toSignificant(6, { groupSeparator: ',' })} ${chain.nativeCurrency.symbol} ($${amountSpentUsd.toFixed(2)} USD) for ${tokensReceived.toSignificant(6, { groupSeparator: ',' })} ${TOKEN.symbol} on ${dex.name}!`;
