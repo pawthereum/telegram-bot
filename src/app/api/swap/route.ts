@@ -44,8 +44,8 @@ export async function POST(req: NextRequest) {
   const chain = getChain(parseInt(chainId));
   const chainCurrencyUsd = await getUsdValueOfChainCurrency(chain);
   const dex = getDex(swap.sender);
-  const tokensReceived = new TokenAmount(getToken(chain), chain.id === 1 ? swap.amount1Out : swap.amount0In);
-  const amountSpent = new TokenAmount(new Token(chain.id as ChainId, constants.AddressZero, 18), chain.id === 1 ? swap.amount0In : swap.amount1Out);
+  const tokensReceived = new TokenAmount(getToken(chain), chain.id === 1 ? swap.amount1Out : swap.amount0Out);
+  const amountSpent = new TokenAmount(new Token(chain.id as ChainId, constants.AddressZero, 18), chain.id === 1 ? swap.amount0In : swap.amount1In);
   const amountSpentUsd = parseFloat(amountSpent.toSignificant(8)) * chainCurrencyUsd;
   const buyer = getBuyerAddress(swap.to, dex);
   const tax = dex.tax.multiply(amountSpent).toFixed(2);
