@@ -44,8 +44,8 @@ export async function POST(req: NextRequest) {
   const chain = getChain(parseInt(chainId));
   const chainCurrencyUsd = await getUsdValueOfChainCurrency(chain);
   const dex = getDex(swap.sender);
-  const tokensReceived = new TokenAmount(getToken(chain), swap.amount0Out);
-  const amountSpent = new TokenAmount(new Token(chain.id as ChainId, constants.AddressZero, 18), swap.amount1In);
+  const tokensReceived = new TokenAmount(getToken(chain), chain.id === 1 ? swap.amount0Out : swap.amount1In);
+  const amountSpent = new TokenAmount(new Token(chain.id as ChainId, constants.AddressZero, 18), chain.id === 1 ? swap.amount1In : swap.amount0Out);
   const amountSpentUsd = parseFloat(amountSpent.toSignificant(8)) * chainCurrencyUsd;
   const buyer = getBuyerAddress(swap.to, dex);
   const tax = dex.tax.multiply(amountSpent).toFixed(2);
@@ -57,8 +57,15 @@ export async function POST(req: NextRequest) {
   const isNewHolder = buyerBalance.equalTo(tokensReceived);
 
   // get out if this is not a buy
-  const isBuy = dex.name !== "Unknown" && swap.amount1In !== '0';
-  if (!isBuy) {
+  const isBuy = () => {
+    const unknownDex = dex.name === "Unknown";
+    if (unknownDex) return false;
+    if (chain.id === 1) {
+      return swap.amount1In !== '0';
+    }
+    return swap.amount0Out !== '0';
+  }
+  if (!isBuy()) {
     return NextResponse.json({ error: 'Not a buy' });
   }
 
