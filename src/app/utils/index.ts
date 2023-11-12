@@ -35,7 +35,7 @@ export const getDex = (address: string) => {
         tax: new Percent('2', '100'),
         chartUrl: 'https://www.dextools.io/app/bsc/pair-explorer/0x0babbb875c4eec2c3f3fc7936ec9632fdce1fac4',
       } as Dex;
-    case '0xc81797e888de6f35bf875e62186f54509cc3e5f7':
+    case '0x3fc91a3afd70395cd496c647d5a6cc9d4b2b7fad':
       return {
         name: 'Uniswap',
         icon: '🦄',
