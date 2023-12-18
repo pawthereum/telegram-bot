@@ -70,6 +70,13 @@ export const getDex = (address: string) => {
         tax: new Percent('1', '100'),
         chartUrl: 'https://www.dextools.io/app/bsc/pair-explorer/0x0babbb875c4eec2c3f3fc7936ec9632fdce1fac4',
       } as Dex;
+    case '0x72548521eDDb0bbdCC3C55AB63Ca08c541d8171D':
+      return {
+        name: 'PawSwap',
+        icon: '🐾',
+        tax: new Percent('1', '200'),
+        chartUrl: 'https://www.dextools.io/app/bsc/pair-explorer/0x800a45f2b861229d59e952aef57b22e84ff949a1',
+      } as Dex;
     case '0x74de5d4fcbf63e00296fd95d33236b9794016631':
       return {
         name: 'Metamask Swapper',
