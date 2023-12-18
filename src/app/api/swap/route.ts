@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
   const amountSpent = new TokenAmount(new Token(chain.id as ChainId, constants.AddressZero, 18), swap.amount1In);
   const amountSpentUsd = parseFloat(amountSpent.toSignificant(8)) * chainCurrencyUsd;
   const buyer = getBuyerAddress(swap.to, dex);
-  const taxUsd = Number(dex.tax.toSignificant(8)) / 100 * amountSpentUsd;
+  const taxUsd = (Number(dex.tax.toSignificant(8)) / 100 * amountSpentUsd).toFixed(2);
   const buyerBalance = new TokenAmount(getToken(chain), swap.triggers[0].value);
   const buyerBalanceBeforeBuy = tokensReceived.greaterThan(buyerBalance) ? new TokenAmount(getToken(chain), '0') : new TokenAmount(getToken(chain), buyerBalance.subtract(tokensReceived).raw.toString());
   const newRank = getRank(buyerBalance, getToken(chain));
