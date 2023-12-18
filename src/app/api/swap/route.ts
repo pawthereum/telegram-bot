@@ -57,8 +57,8 @@ export async function POST(req: NextRequest) {
 
   // get out if this is not a buy
   const isBuy = () => {
-    const unknownDex = dex.name === "Unknown";
-    if (unknownDex) return false;
+    // const unknownDex = dex.name === "Unknown";
+    // if (unknownDex) return false;
     if (chain.id === 1) {
       return swap.amount1In !== '0';
     }
