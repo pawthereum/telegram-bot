@@ -1,3 +1,5 @@
+import { Percent } from "@uniswap/sdk";
+
 export interface MoralisSwap {
   confirmed:         boolean;
   chainId:           string;

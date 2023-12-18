@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
   const amountSpent = new TokenAmount(new Token(chain.id as ChainId, constants.AddressZero, 18), swap.amount1In);
   const amountSpentUsd = parseFloat(amountSpent.toSignificant(8)) * chainCurrencyUsd;
   const buyer = getBuyerAddress(swap.to, dex);
-  const tax = dex.tax.multiply(amountSpent).toFixed(2);
+  const tax = amountSpent.multiply(dex.tax.numerator).divide(dex.tax.denominator).toSignificant(8);
   const taxUsd = parseFloat(tax) * chainCurrencyUsd;
   const buyerBalance = new TokenAmount(getToken(chain), swap.triggers[0].value);
   const buyerBalanceBeforeBuy = tokensReceived.greaterThan(buyerBalance) ? new TokenAmount(getToken(chain), '0') : new TokenAmount(getToken(chain), buyerBalance.subtract(tokensReceived).raw.toString());
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
   ${dex.icon} ${buyer} just bought ${amountSpent.toSignificant(6, { groupSeparator: ',' })} ${chain.nativeCurrency.symbol} ($${amountSpentUsd.toFixed(2)} USD) for ${tokensReceived.toSignificant(6, { groupSeparator: ',' })} ${TOKEN.symbol} on ${dex.name}!`;
 
   console.log({ alert })
-  const toTheAnimals = tax > 0.00 ? `That's $${tax} the animals!` : ''; 
+  const toTheAnimals = taxUsd > 0.00 ? `That's $${tax} the animals!` : ''; 
 
   const newHolder = isNewHolder ? `
   🥳 ${buyer} is a new $${TOKEN.symbol} holder on ${chain.name}! Everyone give them a big welcome!
