@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
   const msg = alert + toTheAnimals + newHolder + rankUp + txLink + chartLink + rankLink;
 
   // send the message
-  await bot.sendMessage(TELEGRAM_CHAT_ID, msg, { parse_mode: 'Markdown', disable_web_page_preview: false })
+  await bot.sendMessage(TELEGRAM_CHAT_ID, msg, { parse_mode: 'Markdown', disable_web_page_preview: newRank.name === oldRank.name })
 
   console.log({ msg, taxUsd });
 
