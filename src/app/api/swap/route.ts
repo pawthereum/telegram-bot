@@ -70,17 +70,16 @@ export async function POST(req: NextRequest) {
 
   // build the msg
   const alert = `🚨 *Buy Alert!*
-  ${dex.icon} ${buyer} just bought ${amountSpent.toSignificant(6, { groupSeparator: ',' })} ${chain.nativeCurrency.symbol} ($${amountSpentUsd.toFixed(2)} USD) for ${tokensReceived.toSignificant(6, { groupSeparator: ',' })} ${TOKEN.symbol} on ${dex.name}!`;
+  ${dex.icon} ${buyer} just bought ${amountSpent.toSignificant(6, { groupSeparator: ',' })} ${chain.nativeCurrency.symbol} ($${amountSpentUsd.toFixed(2)} USD) for ${tokensReceived.toSignificant(6, { groupSeparator: ',' })} ${TOKEN.symbol} on ${dex.name}!  `;
 
   console.log({ alert })
-  const toTheAnimals = Number(taxUsd) > 0.00 ? `That's $${taxUsd} the animals!` : ''; 
+  const toTheAnimals = Number(taxUsd) > 0.00 ? `*That's $${taxUsd} to the animals!!*  ` : ''; 
 
   const newHolder = isNewHolder ? `
-  🥳 ${buyer} is a new $${TOKEN.symbol} holder on ${chain.name}! Everyone give them a big welcome!
-  `: '';
+  🥳 ${buyer} is a new $${TOKEN.symbol} holder on ${chain.name}! Everyone give them a big welcome!  `: '';
 
   const rankUp = newRank.name !== oldRank.name ? `😺 *Rank Up Initiated!*
-  ${buyer} went from a ${oldRank.name} to a [${newRank?.name}](${newRank?.img})! Congrats!` : '';
+  ${buyer} went from a ${oldRank.name} to a [${newRank?.name}](${newRank?.img})! Congrats!  ` : '';
 
   // msg links
   const txLink = `
