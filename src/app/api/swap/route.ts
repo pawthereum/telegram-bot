@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
   ${dex.icon} ${buyer} just bought ${amountSpent.toSignificant(6, { groupSeparator: ',' })} ${chain.nativeCurrency.symbol} ($${amountSpentUsd.toFixed(2)} USD) for ${tokensReceived.toSignificant(6, { groupSeparator: ',' })} ${TOKEN.symbol} on ${dex.name}!`;
 
   console.log({ alert })
-  const toTheAnimals = taxUsd > 0.00 ? `That's $${taxUsd} the animals!` : ''; 
+  const toTheAnimals = Number(taxUsd) > 0.00 ? `That's $${taxUsd} the animals!` : ''; 
 
   const newHolder = isNewHolder ? `
   🥳 ${buyer} is a new $${TOKEN.symbol} holder on ${chain.name}! Everyone give them a big welcome!
