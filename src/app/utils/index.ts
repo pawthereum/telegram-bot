@@ -42,6 +42,13 @@ export const getDex = (address: string) => {
         tax: new Percent('1', '100'),
         chartUrl: 'https://www.dextools.io/app/ether/pair-explorer/0x800a45f2b861229d59e952aef57b22e84ff949a1',
       } as Dex;
+    case '0xdef1c0ded9bec7f1a1670819833240f027b25eff':
+      return {
+        name: '0x Protocol',
+        icon: '0️⃣',
+        tax: new Percent('1', '100'),
+        chartUrl: 'https://www.dextools.io/app/ether/pair-explorer/0x800a45f2b861229d59e952aef57b22e84ff949a1',
+      } as Dex;
     case '0x54a0baf656fcdc383a7c129751742fecd4eee726':
       return {
         name: 'RadioShack',
