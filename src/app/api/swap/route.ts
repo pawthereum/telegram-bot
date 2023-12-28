@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
 
   // build the msg
   const alert = `🚨 *Buy Alert!*
-  ${dex.icon} ${buyer} just bought ${amountSpent.toSignificant(6, { groupSeparator: ',' })} ${chain.nativeCurrency.symbol} ($${amountSpentUsd.toFixed(2)} USD) for ${tokensReceived.toSignificant(6, { groupSeparator: ',' })} ${TOKEN.symbol} on ${dex.name}!  `;
+  ${dex.icon} ${buyer} just bought ${tokensReceived.toSignificant(6, { groupSeparator: ',' })} ${TOKEN.symbol} for ${amountSpent.toSignificant(6, { groupSeparator: ',' })} ${chain.nativeCurrency.symbol} ($${amountSpentUsd.toFixed(2)} USD) on ${dex.name}!  `;
 
   console.log({ alert })
   const toTheAnimals = Number(taxUsd) > 0.00 ? `*That's $${taxUsd} to the animals!!*  ` : ''; 
