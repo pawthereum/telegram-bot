@@ -74,7 +74,7 @@ export const getDex = (address: string) => {
       return {
         name: 'PawSwap',
         icon: '🐾',
-        tax: new Percent('1', '100'),
+        tax: new Percent('2', '100'),
         chartUrl: 'https://www.dextools.io/app/bsc/pair-explorer/0x0babbb875c4eec2c3f3fc7936ec9632fdce1fac4',
       } as Dex;
     case '0x72548521eddb0bbdcc3c55ab63ca08c541d8171d':
