@@ -84,6 +84,13 @@ export const getDex = (address: string) => {
         tax: new Percent('2', '100'),
         chartUrl: 'https://www.dextools.io/app/bsc/pair-explorer/0x0babbb875c4eec2c3f3fc7936ec9632fdce1fac4',
       } as Dex;
+    case '0x7df9dfd9168ae53dc5141110a0b476a053f70ed1':
+      return {
+        name: 'PawSwap',
+        icon: '🐾',
+        tax: new Percent('15', '1000'),
+        chartUrl: 'https://www.dextools.io/app/ether/pair-explorer/0x800a45f2b861229d59e952aef57b22e84ff949a1',
+      } as Dex;
     case '0x72548521eddb0bbdcc3c55ab63ca08c541d8171d':
       return {
         name: 'PawSwap',
