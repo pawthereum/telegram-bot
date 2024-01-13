@@ -5,10 +5,7 @@ import { TELEGRAM_CHAT_ID, TOKEN } from "~/app/utils/config";
 import { 
   getChain, 
   getDex, 
-  getUsdValueOfChainCurrency, 
-  getToken, 
-  isArbitrage, 
-  getBuyerAddress, 
+  getToken,
   getRank,
   getCoingeckoTrade,
   getCoingeckoPoolStats,
