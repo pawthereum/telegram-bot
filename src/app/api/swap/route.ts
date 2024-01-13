@@ -1,7 +1,8 @@
-import { MoralisSwap } from "~/types/moralis";
+import { FirebaseSwapDoc } from "~/types/moralis";
 import { ChainId, Token, TokenAmount } from "@uniswap/sdk";
 import { NextRequest, NextResponse } from "next/server";
 import { TELEGRAM_CHAT_ID, TOKEN } from "~/app/utils/config";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { 
   getChain, 
   getDex, 
@@ -18,21 +19,13 @@ const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: false });
 
 export async function POST(req: NextRequest) {
-  // ensure that this is a request that we should process
-  const body = await req.json();
-  if (!body) {
+  const swap = await req.json() as FirebaseSwapDoc;
+  if (!swap) {
     return NextResponse.json({ error: 'No body' });
   }
-  const { confirmed, logs, chainId, streamId } = body as unknown as MoralisSwap;
-  console.log({ body });
-  // if (streamId !== process.env.MORALIS_STREAM_ID) {
-  //   return NextResponse.json({ error: 'Not our stream' });
-  // }
-  if (!confirmed) {
+  if (!swap.confirmed) {
     return NextResponse.json({ error: 'Not confirmed' });
   }
-
-  const swap = body;
   // setup variables we need for the msg
   const trade = await getCoingeckoTrade(swap);
   console.log({ trade })
@@ -44,9 +37,13 @@ export async function POST(req: NextRequest) {
   if (!isBuy) {
     return NextResponse.json({ error: 'Not a buy' });
   }
+  const sdk = new ThirdwebSDK("sepolia", {
+    secretKey: process.env.THIRDWEB_SECRET_KEY,
+  });
+  const contract = await sdk.getContract(getToken(getChain(swap.chainId)).address, "token");
   const poolStats = await getCoingeckoPoolStats(swap);
   const dex = getDex(swap.sender);
-  const chain = getChain(parseInt(chainId));
+  const chain = getChain(swap.chainId);
   const tokensReceived = new TokenAmount(
     getToken(chain), 
     utils.parseUnits(
@@ -61,8 +58,8 @@ export async function POST(req: NextRequest) {
   const amountSpentUsd = parseFloat(trade.attributes.price_from_in_usd) * parseFloat(trade.attributes.from_token_amount);
   const buyer = getShortenedAddress(trade.attributes.tx_from_address);
   const taxUsd = (Number(dex.tax.toSignificant(8)) / 100 * amountSpentUsd).toFixed(2);
-  const buyerBalance = new TokenAmount(getToken(chain), swap.triggers[0].value);
-  const buyerBalanceBeforeBuy = tokensReceived.greaterThan(buyerBalance) ? new TokenAmount(getToken(chain), '0') : new TokenAmount(getToken(chain), buyerBalance.subtract(tokensReceived).raw.toString());
+  const buyerBalance = new TokenAmount(getToken(chain), (await contract.balanceOf(buyer)).value.toString());
+  const buyerBalanceBeforeBuy = tokensReceived.greaterThan(buyerBalance) ? new TokenAmount(getToken(chain), tokensReceived.subtract(buyerBalance).raw.toString()) : new TokenAmount(getToken(chain), buyerBalance.subtract(tokensReceived).raw.toString());
   const newRank = getRank(buyerBalance, getToken(chain));
   const oldRank = getRank(buyerBalanceBeforeBuy, getToken(chain));
   const isNewHolder = buyerBalanceBeforeBuy.equalTo(new TokenAmount(getToken(chain), '0'));
