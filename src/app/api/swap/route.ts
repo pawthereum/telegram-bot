@@ -37,13 +37,13 @@ export async function POST(req: NextRequest) {
   if (!isBuy) {
     return NextResponse.json({ error: 'Not a buy' });
   }
-  const sdk = new ThirdwebSDK("sepolia", {
-    secretKey: process.env.THIRDWEB_SECRET_KEY,
-  });
-  const contract = await sdk.getContract(getToken(getChain(swap.chainId)).address, "token");
   const poolStats = await getCoingeckoPoolStats(swap);
   const dex = getDex(swap.sender);
   const chain = getChain(swap.chainId);
+  const sdk = new ThirdwebSDK(swap.chainId, {
+    secretKey: process.env.THIRDWEB_SECRET_KEY,
+  });
+  const contract = await sdk.getContract(getToken(getChain(swap.chainId)).address, "token");
   const tokensReceived = new TokenAmount(
     getToken(chain), 
     utils.parseUnits(
