@@ -1,0 +1,237 @@
+{
+  "confirmed": true,
+  "chainId": "0x38",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount0",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount1",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "Burn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount0",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount1",
+          "type": "uint256"
+        }
+      ],
+      "name": "Mint",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount0In",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount1In",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount0Out",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount1Out",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "Swap",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint112",
+          "name": "reserve0",
+          "type": "uint112"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint112",
+          "name": "reserve1",
+          "type": "uint112"
+        }
+      ],
+      "name": "Sync",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    }
+  ],
+  "streamId": "4a282f0e-8dae-4a05-884f-cbc6b0f17339",
+  "tag": "telegram-bot",
+  "retries": 0,
+  "block": {
+    "number": "27150164",
+    "hash": "0xebc0d5ebc32de5970dbc962ba14320f02f52034e9c89482e9bd7296f1b6d0839",
+    "timestamp": "1680899438"
+  },
+  "logs": [
+    {
+      "logIndex": "195",
+      "transactionHash": "0x85e029a574af8c00462a8c48b1227c468d2baea05f5f26fcdef870dc720c7cce",
+      "address": "0x0babbb875c4eec2c3f3fc7936ec9632fdce1fac4",
+      "data": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000038d7ea4c6800000000000000000000000000000000000000000000000000000000054bdab4bfc0000000000000000000000000000000000000000000000000000000000000000",
+      "topic0": "0xd78ad95fa46c994b6551d0da85fc275fe613ce37657fb8d5e3d130840159d822",
+      "topic1": "0x00000000000000000000000013f4ea83d0bd40e75c8222255bc855a974568dd4",
+      "topic2": "0x00000000000000000000000009e02ec57b745e91de2a68b5257b1c8069b652a6",
+      "topic3": null,
+      "sender": "0x14349bea20b5067f5f1fc1d0f534716b9c6d4636",
+      "amount0In": "0",
+      "amount1In": "2991152311311337055",
+      "amount0Out": "5003240776840346",
+      "amount1Out": "0",
+      "to": "0x14349bea20b5067f5f1fc1d0f534716b9c6d4636",
+      "triggers": [
+        {
+          "name": "output1",
+          "value": "5003240776840346"
+        }
+      ]
+    }
+  ],
+  "txs": [],
+  "txsInternal": [],
+  "erc20Transfers": [],
+  "erc20Approvals": [],
+  "nftTokenApprovals": [],
+  "nftApprovals": {
+    "ERC721": [],
+    "ERC1155": []
+  },
+  "nftTransfers": [],
+  "nativeBalances": [],
+  "logIndex": "195",
+  "transactionHash": "0x1a00bb76634eef29216b015613fdeb08ed138367fb8930cdfe0c38160940d2c2",
+  "address": "0x800a45f2b861229d59e952aef57b22e84ff949a1",
+  "data": "0x000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000038d7ea4c6800000000000000000000000000000000000000000000000000000000054bdab4bfc0000000000000000000000000000000000000000000000000000000000000000",
+  "topic0": "0xd78ad95fa46c994b6551d0da85fc275fe613ce37657fb8d5e3d130840159d822",
+  "topic1": "0x00000000000000000000000013f4ea83d0bd40e75c8222255bc855a974568dd4",
+  "topic2": "0x00000000000000000000000009e02ec57b745e91de2a68b5257b1c8069b652a6",
+  "topic3": null,
+  "sender": "0x14349bea20b5067f5f1fc1d0f534716b9c6d4636",
+  "amount0In": "0",
+  "amount1In": "2991152311311337055",
+  "amount0Out": "5003240776840346",
+  "amount1Out": "0",
+  "to": "0x14349bea20b5067f5f1fc1d0f534716b9c6d4636",
+  "triggers": [
+    {
+      "name": "output1",
+      "value": "5003240776840346"
+    }
+  ]
+}

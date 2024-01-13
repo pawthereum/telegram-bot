@@ -1,7 +1,26 @@
 import { ChainId, Percent, Token, TokenAmount } from "@uniswap/sdk";
 import { mainnet, bsc, type Chain } from "wagmi/chains";
 import { TOKEN } from "./config";
-import { MoralisSwap, Dex } from "~/types/moralis";
+import { Dex, MoralisSwap } from "~/types/moralis";
+import { Pool, type Trade } from "~/types/coingecko";
+
+export const getCoingeckoTrade = async (swap: MoralisSwap) => {
+  const coingeckoChainId = Number(swap.chainId) === 1 ? 'eth' : 'bsc';
+  const coingeckoTradeRes = await fetch(`https://api.geckoterminal.com/api/v2/networks/${coingeckoChainId}/pools/${swap.logs[0].address}/trades`);
+  const coingeckoTradeJson = await coingeckoTradeRes.json() as { data: Trade[] };
+  const coingeckoTrade = coingeckoTradeJson.data.find(t => t.attributes.tx_hash.toLowerCase() === swap.logs[0].transactionHash.toLowerCase());
+  if (!coingeckoTrade) {
+    return null;
+  }
+  return coingeckoTrade;
+}
+
+export const getCoingeckoPoolStats = async (swap: MoralisSwap) => {
+  const coingeckoChainId = Number(swap.chainId) === 1 ? 'eth' : 'bsc';
+  const coingeckoPoolStatsRes = await fetch(`https://api.geckoterminal.com/api/v2/networks/${coingeckoChainId}/pools/${swap.logs[0].address}`);
+  const coingeckoPoolStatsJson = await coingeckoPoolStatsRes.json() as { data: Pool };
+  return coingeckoPoolStatsJson.data;
+}
 
 export const getChain = (chainId: number) => {
   switch (chainId) {
