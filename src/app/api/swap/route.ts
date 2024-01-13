@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
   const amountSpentUsd = parseFloat(trade.attributes.price_from_in_usd) * parseFloat(trade.attributes.from_token_amount);
   const buyer = getShortenedAddress(trade.attributes.tx_from_address);
   const taxUsd = (Number(dex.tax.toSignificant(8)) / 100 * amountSpentUsd).toFixed(2);
-  const buyerBalance = new TokenAmount(getToken(chain), (await contract.balanceOf(buyer)).value.toString());
+  const buyerBalance = new TokenAmount(getToken(chain), (await contract.balanceOf(trade.attributes.tx_from_address)).value.toString());
   const buyerBalanceBeforeBuy = tokensReceived.greaterThan(buyerBalance) ? new TokenAmount(getToken(chain), tokensReceived.subtract(buyerBalance).raw.toString()) : new TokenAmount(getToken(chain), buyerBalance.subtract(tokensReceived).raw.toString());
   const newRank = getRank(buyerBalance, getToken(chain));
   const oldRank = getRank(buyerBalanceBeforeBuy, getToken(chain));
