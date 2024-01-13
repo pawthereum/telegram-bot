@@ -17,7 +17,8 @@ export const broadcastBuys = functions.firestore
       // send the doc to our telegram API endpoint
       const document = change.after.data();
       try {
-        const response = await axios.post("https://telegram-bot-rose-two.vercel.app/api/swap", document);
+        // const response = await axios.post("https://telegram-bot-rose-two.vercel.app/api/swap", document);
+        const response = await axios.post("https://c882-2600-4808-8c30-de00-fc3c-5c2a-932e-a1b4.ngrok-free.app/api/swap", document);
         console.log(`POST request sent. Response status: ${response.status}.`);
       } catch (error) {
         console.error(`Error sending POST request: ${error}`);

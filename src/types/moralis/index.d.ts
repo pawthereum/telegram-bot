@@ -19,6 +19,27 @@ export interface MoralisSwap {
   nativeBalances:    any[];
 }
 
+export type FirebaseSwapDoc = {
+  address: string;
+  amount0In: string;
+  amount0Out: string;
+  amount1In: string;
+  amount1Out: string;
+  blockHash: string;
+  blockNumber: number;
+  blockTimestamp: number;
+  chainId: number;
+  confirmed: boolean;
+  id: string;
+  logIndex: number;
+  name: string;
+  sender: string;
+  to: string;
+  transactionHash: string;
+  triggers: { name: string; value: string }[];
+  updatedAt: { _seconds: number; _nanoseconds: number };
+};
+
 export interface ABI {
   anonymous: boolean;
   inputs:    Input[];
