@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
   const txLink = `
   🔎 [TX](${chain.blockExplorers.default.url}/tx/${trade.attributes.tx_hash}) | `;
   const chartLink = `📈 [Chart](${dex.chartUrl}) | `;
-  const rankLink = `🦁 [View all ranks](https://cdn.discordapp.com/attachments/891351589162483732/931878322676322304/finfinfin.png)`;
+  const rankLink = `🦁 [View all ranks](https://ipfs.io/ipfs/QmTgjdc5My7XGkLNP1RAPyacrWuX7yueCkjd5WLduioUzG/ranks.png)`;
 
   // concat it together
   const msg = alert + toTheAnimals + newHolder + rankUp + poolStatsMsg + txLink + chartLink + rankLink;
