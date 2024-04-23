@@ -1,11 +1,11 @@
 import { ChainId, Percent, Token, TokenAmount } from "@uniswap/sdk";
-import { mainnet, bsc, type Chain } from "wagmi/chains";
+import { mainnet, bsc, base, type Chain } from "wagmi/chains";
 import { TOKEN } from "./config";
 import { Dex, FirebaseSwapDoc } from "~/types/moralis";
 import { Pool, type Trade } from "~/types/coingecko";
 
 export const getCoingeckoTrade = async (swap: FirebaseSwapDoc) => {
-  const coingeckoChainId = Number(swap.chainId) === 1 ? 'eth' : 'bsc';
+  const coingeckoChainId = 'base'; // Number(swap.chainId) === 1 ? 'eth' : 'bsc';
   const coingeckoTradeRes = await fetch(`https://api.geckoterminal.com/api/v2/networks/${coingeckoChainId}/pools/${swap.address}/trades`);
   const coingeckoTradeJson = await coingeckoTradeRes.json() as { data: Trade[] };
   const coingeckoTrade = coingeckoTradeJson.data.find(t => t.attributes.tx_hash.toLowerCase() === swap.transactionHash.toLowerCase());
@@ -16,7 +16,7 @@ export const getCoingeckoTrade = async (swap: FirebaseSwapDoc) => {
 }
 
 export const getCoingeckoPoolStats = async (swap: FirebaseSwapDoc) => {
-  const coingeckoChainId = Number(swap.chainId) === 1 ? 'eth' : 'bsc';
+  const coingeckoChainId = 'base'; // Number(swap.chainId) === 1 ? 'eth' : 'bsc';
   const coingeckoPoolStatsRes = await fetch(`https://api.geckoterminal.com/api/v2/networks/${coingeckoChainId}/pools/${swap.address}`);
   const coingeckoPoolStatsJson = await coingeckoPoolStatsRes.json() as { data: Pool };
   return coingeckoPoolStatsJson.data;
@@ -24,6 +24,8 @@ export const getCoingeckoPoolStats = async (swap: FirebaseSwapDoc) => {
 
 export const getChain = (chainId: number) => {
   switch (chainId) {
+    case 8453:
+      return base;
     case 1:
       return mainnet;
     default:
@@ -47,6 +49,27 @@ export const getToken = (chain: Chain) => {
 
 export const getDex = (address: string) => {
   switch (address.toLowerCase()) {
+    case '0x3fc91a3afd70395cd496c647d5a6cc9d4b2b7fad':
+      return {
+        name: 'Uniswap',
+        icon: '🦄',
+        tax: new Percent('1', '100'),
+        chartUrl: 'https://www.dextools.io/app/en/base/pair-explorer/0xa3a8f4cffa93ac4e88bb0c9263f6cba58bff3fb0',
+      } as Dex;
+    case '0x1111111254eeb25477b68fb85ed929f73a960582':
+      return {
+        name: '1inch',
+        icon: '🐴',
+        tax: new Percent('1', '100'),
+        chartUrl: 'https://www.dextools.io/app/en/base/pair-explorer/0xa3a8f4cffa93ac4e88bb0c9263f6cba58bff3fb0',
+      } as Dex;
+    case '0x768f16b7f4bb06a6fe0f720b551c1d63c0253133':
+      return {
+        name: 'PawSwap',
+        icon: '🐾',
+        tax: new Percent('25', '10000'),
+        chartUrl: 'https://www.dextools.io/app/bsc/pair-explorer/0x0babbb875c4eec2c3f3fc7936ec9632fdce1fac4',
+      } as Dex;
     case '0x13f4ea83d0bd40e75c8222255bc855a974568dd4':
       return {
         name: 'PancakeSwap',
@@ -152,6 +175,7 @@ export const getUsdValueOfChainCurrency = async (chain: Chain) => {
   const currency = () => {
     switch (chain.id) {
       case 1:
+      case 8453:
         return 'ethereum';
       default:
         return 'binancecoin';
