@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     return await executeLegacyBot(req);
   }
   // get out if this is not a buy
-  const isBuy = false;// trade.attributes.kind === 'buy';
+  const isBuy = trade.attributes.kind === 'buy';
   if (!isBuy) {
     return NextResponse.json({ error: 'Not a buy' });
   }
